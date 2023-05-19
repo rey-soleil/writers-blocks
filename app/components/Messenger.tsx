@@ -1,18 +1,23 @@
 "use client";
 
-import { CreateChatCompletionResponse } from "openai";
+import {
+  ChatCompletionResponseMessage,
+  ChatCompletionResponseMessageRoleEnum,
+  CreateChatCompletionResponse,
+} from "openai";
 import { useEffect, useState } from "react";
 import ChatHistory from "./ChatHistory";
 import UserInput from "./UserInput";
 
 export default function Messenger() {
   const [userMessage, setUserMessage] = useState<string>("");
-  const [messages, setMessages] = useState<CreateChatCompletionResponse[]>([]);
+  const [messages, setMessages] = useState<ChatCompletionResponseMessage[]>([]);
 
   async function fetchFirstMessage() {
-    const message: CreateChatCompletionResponse = await fetch("/api/chat")
+    const response: CreateChatCompletionResponse = await fetch("/api/chat")
       .then((response) => response.json())
       .catch((error) => console.log(error));
+    const message = response.choices[0].message!;
     return message;
   }
 
@@ -22,6 +27,14 @@ export default function Messenger() {
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setMessages((messages) => {
+      messages.push({
+        role: ChatCompletionResponseMessageRoleEnum.User,
+        content: userMessage,
+      });
+      return messages;
+    });
+    setUserMessage("");
     // TODO: send message to server
   }
 

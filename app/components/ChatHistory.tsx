@@ -1,14 +1,14 @@
 "use client";
 
 import {
+  ChatCompletionResponseMessage,
   ChatCompletionResponseMessageRoleEnum,
-  CreateChatCompletionResponse,
 } from "openai";
 
 type ChatHistoryProps = {
-  messages: CreateChatCompletionResponse[];
+  messages: ChatCompletionResponseMessage[];
   setMessages: React.Dispatch<
-    React.SetStateAction<CreateChatCompletionResponse[]>
+    React.SetStateAction<ChatCompletionResponseMessage[]>
   >;
 };
 
@@ -17,13 +17,24 @@ export default function ChatHistory({
   setMessages,
 }: ChatHistoryProps) {
   return (
-    <div className="overflow-y-scroll">
-      {messages?.map((message) => (
-        <div key={message.id} className="m-4">
-          {message.choices[0].message?.role ===
+    <div className="flex  max-h-96 flex-col overflow-y-scroll">
+      {messages?.map((message, index) => (
+        <div
+          key={index}
+          className={`flex w-full p-4 ${
+            message?.role === ChatCompletionResponseMessageRoleEnum.User &&
+            "justify-end"
+          }`}
+        >
+          {message?.role ===
             ChatCompletionResponseMessageRoleEnum.Assistant && (
-            <div className="text-left bg-slate-500 p-2 w-2/3 text-white rounded-sm">
-              {message.choices[0].message.content}
+            <div className="w-max-2xl rounded-sm bg-slate-500 p-2 text-white">
+              {message.content}
+            </div>
+          )}
+          {message?.role === ChatCompletionResponseMessageRoleEnum.User && (
+            <div className="w-max-2xl  rounded-sm bg-blue-500 p-2 text-white">
+              {message.content}
             </div>
           )}
         </div>
