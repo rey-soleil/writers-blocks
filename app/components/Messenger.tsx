@@ -25,21 +25,33 @@ export default function Messenger() {
     fetchFirstMessage().then((message) => setMessages([message]));
   }, []);
 
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setMessages((messages) => {
-      messages.push({
+
+    let newMessages = [
+      ...messages,
+      {
         role: ChatCompletionResponseMessageRoleEnum.User,
         content: userMessage,
-      });
-      return messages;
-    });
+      },
+    ];
+    setMessages(newMessages);
     setUserMessage("");
-    // TODO: send message to server
+
+    const response: CreateChatCompletionResponse = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ messages: newMessages }),
+    }).then((response) => response.json());
+    const message = response.choices[0].message!;
+    newMessages = [...newMessages, message];
+    setMessages(newMessages);
   }
 
   return (
-    <div className="outline w-4/6 md:w-1/2 min-h-[24rem] flex flex-col justify-between overflow-hidden">
+    <div className="flex min-h-[24rem] w-4/6 flex-col justify-between overflow-hidden outline md:w-1/2">
       <ChatHistory messages={messages} setMessages={setMessages} />
       <UserInput
         userMessage={userMessage}
