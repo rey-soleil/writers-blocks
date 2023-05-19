@@ -16,6 +16,7 @@ export async function GET(request: Request) {
   try {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
+      temperature: 0.5,
       messages: [
         {
           role: "system",
