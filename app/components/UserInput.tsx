@@ -3,17 +3,14 @@
 type UserInputProps = {
   userMessage: string;
   setUserMessage: React.Dispatch<React.SetStateAction<string>>;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 };
 
 export default function UserInput({
   userMessage,
   setUserMessage,
+  onSubmit,
 }: UserInputProps) {
-  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    // TODO: send message to server
-  }
-
   return (
     <form
       className="outline flex flex-row items-center space-x-4 p-4"

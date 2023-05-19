@@ -4,24 +4,20 @@ import {
   ChatCompletionResponseMessageRoleEnum,
   CreateChatCompletionResponse,
 } from "openai";
-import { useEffect, useState } from "react";
 
-export default function ChatHistory() {
-  const [messages, setMessages] = useState<CreateChatCompletionResponse[]>();
+type ChatHistoryProps = {
+  messages: CreateChatCompletionResponse[];
+  setMessages: React.Dispatch<
+    React.SetStateAction<CreateChatCompletionResponse[]>
+  >;
+};
 
-  async function fetchFirstMessage() {
-    const message: CreateChatCompletionResponse = await fetch("/api/chat")
-      .then((response) => response.json())
-      .catch((error) => console.log(error));
-    return message;
-  }
-
-  useEffect(() => {
-    fetchFirstMessage().then((message) => setMessages([message]));
-  }, []);
-
+export default function ChatHistory({
+  messages,
+  setMessages,
+}: ChatHistoryProps) {
   return (
-    <div>
+    <div className="overflow-y-scroll">
       {messages?.map((message) => (
         <div key={message.id} className="m-4">
           {message.choices[0].message?.role ===
