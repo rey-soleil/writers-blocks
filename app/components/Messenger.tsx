@@ -1,5 +1,11 @@
 import ChatHistory from "./ChatHistory";
+import UserInput from "./UserInput";
 
 export default function Messenger() {
-  return <ChatHistory />;
+  return (
+    <div>
+      <ChatHistory />
+      <UserInput />
+    </div>
+  );
 }
