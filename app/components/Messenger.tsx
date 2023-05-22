@@ -51,7 +51,7 @@ export default function Messenger() {
   }
 
   return (
-    <div className="flex h-full flex-col justify-between overflow-hidden outline md:w-1/2">
+    <div className="flex h-full flex-col justify-between overflow-hidden outline md:w-[700px]">
       <ChatHistory messages={messages} setMessages={setMessages} />
       <UserInput
         userMessage={userMessage}
