@@ -13,7 +13,7 @@ export default function UserInput({
 }: UserInputProps) {
   return (
     <form
-      className="outline flex flex-row items-center space-x-4 p-4"
+      className="flex flex-row items-center space-x-4 p-4 outline"
       onSubmit={onSubmit}
     >
       <textarea
@@ -21,7 +21,11 @@ export default function UserInput({
         value={userMessage}
         onChange={({ target }) => setUserMessage(target.value)}
       ></textarea>
-      <input type="submit" value="submit" className="bg-slate-200 h-fit p-2" />
+      <input
+        type="submit"
+        value="submit"
+        className="h-fit bg-slate-200 p-2"
+      ></input>
     </form>
   );
 }
