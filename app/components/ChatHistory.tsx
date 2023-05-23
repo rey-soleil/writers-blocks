@@ -4,6 +4,7 @@ import {
   ChatCompletionResponseMessage,
   ChatCompletionResponseMessageRoleEnum,
 } from "openai";
+import TypewriterComponent from "typewriter-effect";
 
 type ChatHistoryProps = {
   messages: ChatCompletionResponseMessage[];
@@ -17,7 +18,7 @@ export default function ChatHistory({
   setMessages,
 }: ChatHistoryProps) {
   return (
-    <div className="flex  max-h-96 flex-col overflow-y-scroll">
+    <div className="flex flex-col overflow-y-scroll">
       {messages?.map((message, index) => (
         <div
           key={index}
@@ -29,7 +30,13 @@ export default function ChatHistory({
           {message?.role ===
             ChatCompletionResponseMessageRoleEnum.Assistant && (
             <div className="w-max-2xl rounded-sm bg-slate-500 p-2 text-white">
-              {message.content}
+              <TypewriterComponent
+                options={{
+                  strings: message.content,
+                  autoStart: true,
+                  delay: 0,
+                }}
+              />
             </div>
           )}
           {message?.role === ChatCompletionResponseMessageRoleEnum.User && (
