@@ -11,7 +11,9 @@ import UserInput from "./UserInput";
 
 export default function Messenger() {
   const [userMessage, setUserMessage] = useState<string>("");
-  const [messages, setMessages] = useState<ChatCompletionResponseMessage[]>([]);
+  const [messages, setMessages] = useState<ChatCompletionResponseMessage[]>([
+    { role: ChatCompletionResponseMessageRoleEnum.Assistant, content: "" },
+  ]);
 
   async function fetchFirstMessage() {
     const response: CreateChatCompletionResponse = await fetch("/api/chat")

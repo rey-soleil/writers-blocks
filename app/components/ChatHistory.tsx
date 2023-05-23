@@ -40,7 +40,7 @@ export default function ChatHistory({
             </div>
           )}
           {message?.role === ChatCompletionResponseMessageRoleEnum.User && (
-            <div className="w-max-2xl  rounded-sm bg-blue-500 p-2 text-white">
+            <div className="w-max-2xl rounded-sm bg-blue-500 p-2 text-white">
               {message.content}
             </div>
           )}
